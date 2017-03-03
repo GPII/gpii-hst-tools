@@ -1,31 +1,29 @@
 @echo off
 
-::Set Path to the directory to create Hardware/Software Text document
-md "System Information"
+:: Create directory "System Information" if doesn't exist
+echo Create folder: System Information
+IF NOT EXIST "System Information" md "System Information"
+
+SET filePath="System Information\System_Information.txt"
 
 :: Run SYSTEMINFO
-systeminfo > "System Information\System_Information1.txt"
-echo -------System Hardware Information_SYSTEMINFO--------- > "System Information\System_Information.txt"
+echo Running command: systeminfo
+echo ------- Output of command: systeminfo --------- > %filePath%
+systeminfo >> %filePath%
 
 :: Run WMIC
-wmic product get name,vendor,version > "System Information\System_Information2.txt"
-
-::Append Data to System_Information.txt file
-type "System Information\System_Information1.txt" >> "System Information\System_Information.txt"
-echo -------System Software Information_WMIC--------- >> "System Information\System_Information.txt"
-type "System Information\System_Information2.txt" >> "System Information\System_Information.txt"
-del "System Information\System_Information1.txt"
-del "System Information\System_Information2.txt"
+echo Running command: WMIC
+echo ------- Output of command: WMIC --------- >> %filePath%
+wmic /APPEND:%filePath% product get name,vendor,version >> nul
 
 ::Run Dxdiag and append data to System_Information.txt
-echo Running Dxdiag
-echo -------System Software Information_DxDiag--------- >> "System Information\System_Information.txt"
-
+echo Running command: dxdiag
+echo ------- Output of command: dxdiag --------- >> %filePath%
 dxdiag /T dxdiag.txt
-type dxdiag.txt >> "System Information\System_Information.txt"
+type dxdiag.txt >> %filePath%
 del dxdiag.txt
 
-::Run PSinfo and append data to System_Information.txt
-echo Running psinfo
-echo -------System Software Information_PsInfo--------- >> "System Information\System_Information.txt"
-PSINFO  >> "System Information\System_Information.txt"
+::Run PsInfo and append data to System_Information.txt
+echo Running command: PsInfo
+echo ------- Output of command: PsInfo --------- >> %filePath%
+psinfo  >> %filePath%
