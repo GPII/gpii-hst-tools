@@ -1,5 +1,7 @@
 @echo off
 
+pushd %~dp0
+
 :: Create directory "System Information" if doesn't exist
 echo Create folder: System Information
 IF NOT EXIST "System Information" md "System Information"
@@ -27,3 +29,5 @@ del dxdiag.txt
 echo Running command: PsInfo
 echo ------- Output of command: PsInfo --------- >> %filePath%
 psinfo  >> %filePath%
+
+popd
