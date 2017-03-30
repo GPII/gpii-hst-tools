@@ -11,7 +11,7 @@ SET filePath="System Information\System_Information.txt"
 :: Run Dxdiag
 echo Collecting hardware information
 echo ------- Hardware Information --------- > %filePath%
-dxdiag /T dxdiag.txt
+dxdiag /64bit /T dxdiag.txt
 type dxdiag.txt >> %filePath%
 del dxdiag.txt
 
